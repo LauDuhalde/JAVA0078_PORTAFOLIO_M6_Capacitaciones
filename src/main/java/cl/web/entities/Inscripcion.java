@@ -1,4 +1,4 @@
-package cl.web.models;
+package cl.web.entities;
 
 import java.time.LocalDate;
 

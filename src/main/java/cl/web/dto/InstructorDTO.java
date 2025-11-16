@@ -1,5 +1,7 @@
 package cl.web.dto;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,5 +17,7 @@ public class InstructorDTO {
     private String especialidad;
 
     private Long usuarioId; // Relación 1:1
+    
+    private List<CursoDTO> cursos; //Relación 1:N
 }
 

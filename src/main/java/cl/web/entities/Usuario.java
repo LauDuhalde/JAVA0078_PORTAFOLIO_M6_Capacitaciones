@@ -1,4 +1,4 @@
-package cl.web.models;
+package cl.web.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
