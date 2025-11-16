@@ -39,15 +39,24 @@ public class InscripcionServiceImpl implements InscripcionService {
 
         Curso curso = cursoRepository.findById(cursoId)
                 .orElseThrow(() -> new RuntimeException("Curso no encontrado"));
-        
+
+        //DTO temporal
         InscripcionCreateDTO dto = new InscripcionCreateDTO();
         dto.setCursoId(cursoId);
         dto.setEmpleadoId(empleadoId);
         dto.setEstado("ACTIVO");
         dto.setFechaInscripcion(LocalDate.now());
-        
+
+        //Asignar relaciones (MapStruct las ignora)
         Inscripcion inscripcion = mapper.toEntity(dto);
-        return mapper.toDTO(inscripcionRepository.save(inscripcion));
+        inscripcion.setEmpleado(empleado);
+        inscripcion.setCurso(curso);
+
+        Inscripcion guardada = inscripcionRepository.save(inscripcion);
+
+        //Devolver DTO
+        return mapper.toDTO(guardada);
     }
+
 }
 

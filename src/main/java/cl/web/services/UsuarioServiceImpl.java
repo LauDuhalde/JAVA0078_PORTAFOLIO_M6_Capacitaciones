@@ -1,17 +1,22 @@
 package cl.web.services;
 
-import cl.web.dto.UsuarioCreateDTO;
-import cl.web.dto.UsuarioDTO;
-import cl.web.mappers.UsuarioMapper;
-import cl.web.entities.Usuario;
-import cl.web.repositories.UsuarioRepository;
+import java.util.List;
+
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import cl.web.dto.UsuarioCreateDTO;
+import cl.web.dto.UsuarioDTO;
+import cl.web.entities.Usuario;
+import cl.web.mappers.UsuarioMapper;
+import cl.web.repositories.UsuarioRepository;
 
 @Service
-public class UsuarioServiceImpl implements UsuarioService {
+public class UsuarioServiceImpl implements UserDetailsService, UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final UsuarioMapper mapper;
@@ -23,6 +28,20 @@ public class UsuarioServiceImpl implements UsuarioService {
         this.usuarioRepository = usuarioRepository;
         this.mapper = mapper;
         this.passwordEncoder = passwordEncoder;
+    }
+    
+    @Override
+    public UserDetails loadUserByUsername(String username) {
+        Usuario usuario = usuarioRepository.findByUsername(username)
+            .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + usuario.getRol());
+
+        return new org.springframework.security.core.userdetails.User(
+                usuario.getUsername(),
+                usuario.getPassword(),
+                List.of(authority)
+        );
     }
 
     @Override

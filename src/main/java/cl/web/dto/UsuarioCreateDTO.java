@@ -24,7 +24,7 @@ public class UsuarioCreateDTO { // Se usa para la creación del usuario
     private String email;
 
     @NotEmpty(message = "Rol no puede estar vacio")
-    private String rol;  // admin | instructor | empleado
+    private String rol;  // admin | empleado
     
     private EmpleadoDTO empleado;      // OPCIONAL
     private InstructorDTO instructor;  // OPCIONAL

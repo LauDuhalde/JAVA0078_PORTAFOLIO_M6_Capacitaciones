@@ -33,7 +33,7 @@ public class Usuario {
     private String email;
 
     @Column(nullable = false)
-    private String rol; // admin, instructor, empleado
+    private String rol; // admin, empleado
     
     @OneToOne(mappedBy = "usuario", fetch = FetchType.LAZY)
     private Instructor instructor;
