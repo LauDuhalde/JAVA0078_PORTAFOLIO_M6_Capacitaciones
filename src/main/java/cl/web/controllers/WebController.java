@@ -9,20 +9,22 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import cl.web.dto.UsuarioCreateDTO;
-import cl.web.dto.UsuarioDTO;
 import cl.web.services.UsuarioServiceImpl;
 import jakarta.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Controller
 public class WebController {
+	private static final Logger logger = LoggerFactory.getLogger(WebController.class);
 	
 	@Autowired
 	UsuarioServiceImpl usuarioServiceImpl;
-
-    // Vista de login
-    @GetMapping("/login")
-    public String login() {
-        return "login";
+	
+	@GetMapping("/login")
+    public String mostrarLogin() {
+        return "login";  // busca templates/login.html
     }
 
     // Vista de registro
@@ -38,24 +40,14 @@ public class WebController {
                                    BindingResult result,
                                    Model model) {
         try {
-
-            UsuarioDTO existeUsername = usuarioServiceImpl.obtenerPorUsername(userDto.getUsername());
-            if (existeUsername != null) {
-                result.rejectValue("username", null, "Ese nombre de usuario ya está en uso");
-            }
-
-            if (result.hasErrors()) {
-                model.addAttribute("usuario", userDto);
-                return "registro";
-            }
-
             usuarioServiceImpl.crearUsuario(userDto);
             model.addAttribute("mensaje", "Usuario creado con exito");
             return "login";
 
         } catch (Exception e) {
-            // Captura cualquier error no previsto y lo deriva a página de error
+            // Captura cualquier error no previsto
         	model.addAttribute("errorMessage", "Ocurrió un error inesperado. Intenta más tarde.");
+        	logger.error(e.getMessage());
         	return "registro";
         }
     }

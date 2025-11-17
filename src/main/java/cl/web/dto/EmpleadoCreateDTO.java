@@ -7,4 +7,6 @@ public class EmpleadoCreateDTO {
     private String nombre;
     private String apellido;
     private String area;
+    
+    private Long usuarioId; // Relación 1:1
 }

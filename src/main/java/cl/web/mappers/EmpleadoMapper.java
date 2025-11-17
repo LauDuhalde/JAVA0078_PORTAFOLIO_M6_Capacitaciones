@@ -16,5 +16,6 @@ public interface EmpleadoMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "usuario", ignore = true)
     @Mapping(target = "inscripciones", ignore = true)
+    @Mapping(target = "usuario.id", source = "usuarioId")
     Empleado toEntity(EmpleadoCreateDTO dto);
 }

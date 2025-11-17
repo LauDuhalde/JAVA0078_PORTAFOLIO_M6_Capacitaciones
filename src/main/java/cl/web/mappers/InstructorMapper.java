@@ -16,5 +16,6 @@ public interface InstructorMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "usuario", ignore = true)
     @Mapping(target = "cursos", ignore = true)
+    @Mapping(target = "usuario.id", source = "usuarioId")
     Instructor toEntity(InstructorCreateDTO dto);
 }

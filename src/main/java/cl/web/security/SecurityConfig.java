@@ -41,6 +41,14 @@ public class SecurityConfig {
                 .requestMatchers("/api/**").authenticated()
                 .anyRequest().authenticated()
             )
+            .formLogin(login -> login
+            		.loginPage("/login")
+            		.defaultSuccessUrl("/")
+            		.permitAll())
+            .logout(logout -> logout
+            		.logoutUrl("/logout")
+            		.logoutSuccessUrl("/")
+            		)
             .addFilterBefore(jwtFiltro, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
