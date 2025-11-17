@@ -89,6 +89,9 @@
                     <button class="btn btn-primary w-100 mt-3" type="submit">Registrar</button>
 
                 </form>
+                <div class="text-center mt-3">
+                        <a th:href="@{/login}">Iniciar sesión</a>
+                 </div>
                 <div th:if="${errorMessage}" class="mt-5 alert alert-danger" th:text="${errorMessage}"></div>
             </div>
         </div>

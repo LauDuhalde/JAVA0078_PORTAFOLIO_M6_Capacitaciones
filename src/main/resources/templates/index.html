@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Inicio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" 
+          rel="stylesheet">
+</head>
+<body class="bg-light">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <span class="navbar-brand">Mi Plataforma</span>
+        </div>
+    </nav>
+
+
+    <div class="container text-center mt-5">
+
+        <h1 class="mb-4">Bienvenido a la Plataforma</h1>
+
+        <!-- Si está autenticado -->
+        <div th:if="${#authentication.authenticated and #authentication.name != 'anonymousUser'}">
+            <p class="fs-5">
+                Hola, <strong th:text="${#authentication.name}"></strong> 👋  
+            </p>
+            <p class="text-muted">
+                Serás redirigido según tu rol: ADMIN o EMPLEADO.
+            </p>
+        </div>
+
+        <!-- Si NO está autenticado -->
+        <div th:if="${not #authentication.authenticated or #authentication.name == 'anonymousUser'}">
+            <p class="fs-5">
+                Por favor, inicia sesión o regístrate.
+            </p>
+            <a class="btn btn-primary" th:href="@{/login}">Ingresar</a>
+            <a class="btn btn-secondary" th:href="@{/registro}">Registrarse</a>
+        </div>
+
+    </div>
+
+</body>
+</html>

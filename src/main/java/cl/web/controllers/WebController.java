@@ -1,6 +1,8 @@
 package cl.web.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,48 +19,73 @@ import org.slf4j.LoggerFactory;
 
 @Controller
 public class WebController {
-	private static final Logger logger = LoggerFactory.getLogger(WebController.class);
-	
-	@Autowired
-	UsuarioServiceImpl usuarioServiceImpl;
-	
-	@GetMapping("/login")
+    
+    private static final Logger logger = LoggerFactory.getLogger(WebController.class);
+
+    @Autowired
+    UsuarioServiceImpl usuarioServiceImpl;
+
+    @GetMapping("/login")
     public String mostrarLogin() {
         return "login";  // busca templates/login.html
     }
 
-    // Vista de registro
+    @GetMapping("/")
+    public String home(Authentication auth) {
+
+        if (auth == null) {
+            return "index"; // página pública, solo sin login
+        }
+
+        boolean isAdmin = auth.getAuthorities()
+                .stream()
+                .map(GrantedAuthority::getAuthority)
+                .anyMatch(r -> r.equals("ROLE_ADMIN"));
+
+        boolean isEmpleado = auth.getAuthorities()
+                .stream()
+                .map(GrantedAuthority::getAuthority)
+                .anyMatch(r -> r.equals("ROLE_EMPLEADO"));
+
+        if (isAdmin) {
+            return "redirect:/admin/cursos";
+        }
+
+        if (isEmpleado) {
+            return "redirect:/empleado/cursos";
+        }
+
+        return "index"; // fallback
+    }
+
     @GetMapping("/registro")
     public String mostrarRegistroForm(Model model) {
         UsuarioCreateDTO user = new UsuarioCreateDTO();
         model.addAttribute("usuario", user);
         return "registro";
     }
-    
+
     @PostMapping("/registro")
     public String registro_guardar(@Valid @ModelAttribute("usuario") UsuarioCreateDTO userDto,
                                    BindingResult result,
                                    Model model) {
         try {
             usuarioServiceImpl.crearUsuario(userDto);
-            model.addAttribute("mensaje", "Usuario creado con exito");
+            model.addAttribute("mensaje", "Usuario creado con éxito");
             return "login";
 
         } catch (Exception e) {
-            // Captura cualquier error no previsto
-        	model.addAttribute("errorMessage", "Ocurrió un error inesperado. Intenta más tarde.");
-        	logger.error(e.getMessage());
-        	return "registro";
+            model.addAttribute("errorMessage", "Ocurrió un error inesperado. Intenta más tarde.");
+            logger.error("Error al crear usuario: " + e.getMessage());
+            return "registro";
         }
     }
 
-    // Vista para admin gestionar cursos
     @GetMapping("/admin/cursos")
     public String adminCursos() {
         return "admin/cursos";
     }
 
-    // Vista para empleados ver cursos disponibles
     @GetMapping("/empleado/cursos")
     public String empleadoCursos() {
         return "empleado/cursos";
