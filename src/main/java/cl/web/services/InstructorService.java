@@ -1,5 +1,6 @@
 package cl.web.services;
 
+import cl.web.dto.EmpleadoDTO;
 import cl.web.dto.InstructorCreateDTO;
 import cl.web.dto.InstructorDTO;
 import java.util.List;
@@ -13,4 +14,6 @@ public interface InstructorService {
     List<InstructorDTO> listarInstructores();
 
     void asignarCurso(Long instructorId, Long cursoId);
+    
+    InstructorDTO obtenerPorUsuarioId(Long id);
 }

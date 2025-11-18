@@ -10,23 +10,51 @@
 <div class="container mt-4">
 
     <h2>Cursos Disponibles</h2>
-
+	
     <a class="btn btn-secondary mt-2 mb-4" th:href="@{/logout}">Cerrar sesión</a>
+    
+    <!-- Mensaje de éxito -->
+	<div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+	    <span th:text="${success}"></span>
+	    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+	</div>
+	
+	<!-- Mensaje de error -->
+	<div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+	    <span th:text="${error}"></span>
+	    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+	</div>
+    
 
-    <div class="row" th:each="curso : ${cursos}">
-        <div class="col-md-4">
-            <div class="card mb-3 shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${curso.nombre}"></h5>
-                    <p class="card-text" th:text="${curso.descripcion}"></p>
-
-                    <form th:action="@{/api/inscripciones}" method="post">
-                        <input type="hidden" name="cursoId" th:value="${curso.id}">
-                        <button class="btn btn-success w-100">Inscribirme</button>
-                    </form>
-
-                </div>
-            </div>
+    <div class="row" >
+        <div class="col-md-4" th:each="curso : ${cursos}">
+        	<div class="card mb-3 shadow-sm">
+	            <div class="card-body">
+				    <h5 class="card-title" th:text="${curso.nombre}"></h5>
+				    <p class="card-text" th:text="${curso.descripcion}"></p>
+				    <p class="text-muted mb-1">
+					    Cupos: <span th:text="${curso.cupos}"></span>
+					</p>
+				    <p class="card-text">
+					    <span th:text="${#temporals.format(curso.fechaInicio, 'dd/MM/yyyy')}"></span>
+					    a
+					    <span th:text="${#temporals.format(curso.fechaFin, 'dd/MM/yyyy')}"></span>
+					</p>
+				
+				    <!-- Si está inscrito -->
+				    <div th:if="${cursosInscritos.contains(curso.id)}">
+				        <span class="badge bg-secondary">Ya inscrito</span>
+				    </div>
+				
+				    <!-- Si NO está inscrito -->
+				    <div th:unless="${cursosInscritos.contains(curso.id)}">
+				        <form th:action="@{/empleado/inscribir}" method="post">
+				            <input type="hidden" name="cursoId" th:value="${curso.id}">
+				            <button class="btn btn-success w-100">Inscribirme</button>
+				        </form>
+				    </div>
+				</div>
+			</div>
         </div>
     </div>
 

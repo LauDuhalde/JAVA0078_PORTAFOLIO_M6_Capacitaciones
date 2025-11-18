@@ -59,4 +59,11 @@ public class InstructorServiceImpl implements InstructorService {
         instructor.getCursos().add(curso);
         instructorRepository.save(instructor);
     }
+
+	@Override
+	public InstructorDTO obtenerPorUsuarioId(Long id) {
+		Instructor instructor = instructorRepository.findByUsuarioId(id)
+                .orElseThrow(() -> new RuntimeException("Instructor no encontrado"));
+        return mapper.toDTO(instructor);
+	}
 }

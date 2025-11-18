@@ -1,6 +1,7 @@
 package cl.web.services;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -34,6 +35,12 @@ public class InscripcionServiceImpl implements InscripcionService {
 
     @Override
     public InscripcionDTO inscribirEmpleado(Long empleadoId, Long cursoId) {
+    	boolean existe = inscripcionRepository.existsByEmpleadoIdAndCursoId(empleadoId, cursoId);
+
+        if (existe) {
+            throw new RuntimeException("Ya estás inscrito en este curso.");
+        }
+        
         Empleado empleado = empleadoRepository.findById(empleadoId)
                 .orElseThrow(() -> new RuntimeException("Empleado no encontrado"));
 
@@ -57,6 +64,11 @@ public class InscripcionServiceImpl implements InscripcionService {
         //Devolver DTO
         return mapper.toDTO(guardada);
     }
+
+    @Override
+	public List<InscripcionDTO> obtenerPorEmpleadoId(Long id) {
+    	return inscripcionRepository.findByEmpleadoId(id).stream().map(mapper::toDTO).toList();
+	}
 
 }
 

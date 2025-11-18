@@ -12,4 +12,6 @@ public interface EmpleadoService {
     EmpleadoDTO obtenerPorId(Long id);
 
     List<EmpleadoDTO> listarEmpleados();
+    
+    EmpleadoDTO obtenerPorUsuarioId(Long id);
 }

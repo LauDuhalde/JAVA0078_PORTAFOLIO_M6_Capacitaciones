@@ -11,6 +11,18 @@
     <h2>Administración de Cursos</h2>
 
     <a class="btn btn-secondary mt-2 mb-4" th:href="@{/logout}">Cerrar sesión</a>
+    
+    <!-- Mensaje de éxito -->
+	<div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+	    <span th:text="${success}"></span>
+	    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+	</div>
+	
+	<!-- Mensaje de error -->
+	<div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+	    <span th:text="${error}"></span>
+	    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+	</div>
 
     <div class="card shadow">
         <div class="card-body">
@@ -23,14 +35,32 @@
                     <th>ID</th>
                     <th>Nombre</th>
                     <th>Descripción</th>
+                    <th>Fecha inicio</th>
+                    <th>Fecha fin</th>
+                    <th>Cupos</th>
+                    <th>Instructor</th>
                 </tr>
                 </thead>
 
                 <tbody>
                 <tr th:each="curso : ${cursos}">
-                    <td th:text="${curso.id}"></td>
-                    <td th:text="${curso.nombre}"></td>
-                    <td th:text="${curso.descripcion}"></td>
+                    <td th:text="${curso.curso.id}"></td>
+                    <td th:text="${curso.curso.nombre}"></td>
+                    <td th:text="${curso.curso.descripcion}"></td>
+                    <td th:text="${#temporals.format(curso.curso.fechaInicio, 'dd/MM/yyyy')}"></td>
+					<td th:text="${#temporals.format(curso.curso.fechaFin, 'dd/MM/yyyy')}"></td>
+					<td th:text="${curso.curso.cupos}"></td>
+					<td>
+						<span th:if="${curso.instructorNombre != ''}" 
+          					th:text="${curso.instructorNombre}"></span>
+          					
+          				<a th:if="${curso.instructorNombre == ''}"
+						   class="btn btn-sm btn-outline-primary"
+						   th:href="@{'/admin/cursos/registrarse-como-instructor/' + ${curso.curso.id}}">
+						    Ser Instructor
+						</a>
+          				
+					</td>
                 </tr>
                 </tbody>
             </table>

@@ -12,14 +12,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import cl.web.dto.EmpleadoCreateDTO;
-import cl.web.dto.EmpleadoDTO;
 import cl.web.dto.InstructorCreateDTO;
-import cl.web.dto.InstructorDTO;
 import cl.web.dto.UsuarioCreateDTO;
 import cl.web.dto.UsuarioDTO;
 import cl.web.entities.Usuario;
-import cl.web.mappers.EmpleadoMapper;
-import cl.web.mappers.InstructorMapper;
 import cl.web.mappers.UsuarioMapper;
 import cl.web.repositories.UsuarioRepository;
 
@@ -30,25 +26,18 @@ public class UsuarioServiceImpl implements UserDetailsService, UsuarioService {
     private final UsuarioMapper uMapper;
     private final PasswordEncoder passwordEncoder;
     private final EmpleadoServiceImpl empleadoService;
-    private final EmpleadoMapper eMapper;
     private final InstructorServiceImpl instructorService;
-    private final InstructorMapper iMapper;
 
     public UsuarioServiceImpl(UsuarioRepository usuarioRepository,
                               UsuarioMapper uMapper,
                               PasswordEncoder passwordEncoder,
                               EmpleadoServiceImpl empleadoService,
-                              InstructorServiceImpl instructorService,
-                              EmpleadoMapper eMapper,
-                              InstructorMapper iMapper) {
+                              InstructorServiceImpl instructorService) {
         this.usuarioRepository = usuarioRepository;
         this.uMapper = uMapper;
         this.passwordEncoder = passwordEncoder;
 		this.empleadoService = empleadoService;
 		this.instructorService = instructorService;
-		this.eMapper = eMapper;
-		this.iMapper = iMapper;
-		;
     }
     
     @Override

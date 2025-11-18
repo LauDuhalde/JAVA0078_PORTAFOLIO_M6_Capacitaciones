@@ -36,5 +36,12 @@ public class EmpleadoServiceImpl implements EmpleadoService {
     public List<EmpleadoDTO> listarEmpleados() {
         return empleadoRepository.findAll().stream().map(mapper::toDTO).toList();
     }
+
+	@Override
+	public EmpleadoDTO obtenerPorUsuarioId(Long id) {
+		return empleadoRepository.findByUsuarioId(id)
+                .map(mapper::toDTO)
+                .orElseThrow(() -> new RuntimeException("Empleado no encontrado"));
+	}
 }
 
