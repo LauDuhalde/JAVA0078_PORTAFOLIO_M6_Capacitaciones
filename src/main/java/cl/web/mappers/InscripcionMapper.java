@@ -17,5 +17,7 @@ public interface InscripcionMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "empleado", ignore = true)
     @Mapping(target = "curso", ignore = true)
+    @Mapping(target = "empleado.id", source = "empleadoId")
+    @Mapping(target = "curso.id", source = "cursoId")
     Inscripcion toEntity(InscripcionCreateDTO dto);
 }

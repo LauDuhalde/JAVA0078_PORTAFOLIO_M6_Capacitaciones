@@ -108,9 +108,6 @@ Editar `application.properties`:
 
 ## Pendientes
 
--   REST GET /api/cursos: Devuelve el listado de cursos disponibles
-- 	REST POST /api/inscripciones: Registra a un empleado en un curso
-
 ### Mejoras
 
 -	Vista empleados: mostrar opción 'inscribir' solo para cursos vigentes

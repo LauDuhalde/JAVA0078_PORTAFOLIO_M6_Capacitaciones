@@ -70,5 +70,17 @@ public class InscripcionServiceImpl implements InscripcionService {
     	return inscripcionRepository.findByEmpleadoId(id).stream().map(mapper::toDTO).toList();
 	}
 
+	@Override
+	public InscripcionDTO nuevaInscripcion(InscripcionCreateDTO dto) {
+		Empleado empleado = empleadoRepository.findById(dto.getEmpleadoId())
+                .orElseThrow(() -> new RuntimeException("Empleado no encontrado"));
+
+        Curso curso = cursoRepository.findById(dto.getCursoId())
+                .orElseThrow(() -> new RuntimeException("Curso no encontrado"));
+        
+        Inscripcion guardada = inscripcionRepository.save(mapper.toEntity(dto));
+        return mapper.toDTO(guardada);
+	}
+
 }
 

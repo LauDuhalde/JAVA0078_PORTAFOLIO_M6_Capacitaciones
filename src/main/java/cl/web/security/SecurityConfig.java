@@ -11,6 +11,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebSecurity
@@ -41,17 +44,35 @@ public class SecurityConfig {
                 .requestMatchers("/api/**").authenticated()
                 .anyRequest().authenticated()
             )
+            .exceptionHandling(ex -> ex
+            	    .authenticationEntryPoint((request, response, authException) -> {
+
+            	        String path = request.getRequestURI();
+
+            	        if (path.startsWith("/api/")) {
+            	            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            	            response.setContentType("application/json");
+            	            response.getWriter().write("{\"error\": \"No autorizado o token inválido\"}");
+            	        } else {
+            	            response.sendRedirect("/login");
+            	        }
+            	    })
+            	)
+
             .formLogin(login -> login
-            		.loginPage("/login")
-            		.defaultSuccessUrl("/")
-            		.permitAll())
+                .loginPage("/login")
+                .defaultSuccessUrl("/", true)
+                .permitAll()
+            )
             .logout(logout -> logout
-            		.logoutUrl("/logout")
-            		.logoutSuccessUrl("/")
-            		)
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
+            )
             .addFilterBefore(jwtFiltro, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
+
+
 }
 
