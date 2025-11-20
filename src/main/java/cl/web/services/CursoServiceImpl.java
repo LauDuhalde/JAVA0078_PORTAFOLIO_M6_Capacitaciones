@@ -2,6 +2,7 @@ package cl.web.services;
 
 import java.util.List;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import cl.web.dto.CursoCreateDTO;
@@ -42,10 +43,26 @@ public class CursoServiceImpl implements CursoService {
 
     @Override
     public List<CursoDTO> listarCursos() {
-        return cursoRepository.findAll().stream().map(mapper::toDTO).toList();
+        return cursoRepository
+                .findAll(Sort.by(Sort.Direction.DESC, "fechaInicio")) //ordenado por fecha de inicio mas cercana
+                .stream()
+                .map(mapper::toDTO)
+                .toList();
     }
 
-    @Override
+	@Override
+	public void eliminarCurso(Long id) {
+		cursoRepository.deleteById(id);
+		
+	}
+
+	@Override
+	public CursoDTO editarCurso(CursoDTO dto) {
+		Curso curso = mapper.toEntity(dto);
+		return mapper.toDTO(cursoRepository.save(curso));
+	}
+	
+	@Override
     public void asignarInstructor(Long cursoId, Long instructorId) {
         Curso curso = cursoRepository.findById(cursoId)
                 .orElseThrow(() -> new RuntimeException("Curso no encontrado"));

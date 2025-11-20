@@ -17,4 +17,8 @@ public interface CursoMapper {
     @Mapping(target = "instructor", ignore = true)
     @Mapping(target = "inscripciones", ignore = true)
     Curso toEntity(CursoCreateDTO dto);
+    
+    @Mapping(target = "instructor", ignore = true)
+    @Mapping(target = "inscripciones", ignore = true)
+	Curso toEntity(CursoDTO dto);
 }

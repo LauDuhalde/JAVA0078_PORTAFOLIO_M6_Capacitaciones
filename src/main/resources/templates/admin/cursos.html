@@ -6,11 +6,21 @@
 </head>
 
 <body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <span class="navbar-brand">Mi Plataforma</span>
+
+        <!-- Botón Logout alineado a la derecha -->
+        <div class="ms-auto">
+            <a class="btn btn-outline-light" th:href="@{/logout}">
+                Cerrar sesión
+            </a>
+        </div>
+    </div>
+</nav>
 
 <div class="container mt-4">
     <h2>Administración de Cursos</h2>
-
-    <a class="btn btn-secondary mt-2 mb-4" th:href="@{/logout}">Cerrar sesión</a>
     
     <!-- Mensaje de éxito -->
 	<div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
@@ -23,7 +33,7 @@
 	    <span th:text="${error}"></span>
 	    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
 	</div>
-
+	<a th:href="@{/admin/cursos/nuevo}" class="btn btn-primary mt-2 mb-4">Crear Curso</a>
     <div class="card shadow">
         <div class="card-body">
 
@@ -31,16 +41,18 @@
 
             <table class="table table-striped">
                 <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Descripción</th>
-                    <th>Fecha inicio</th>
-                    <th>Fecha fin</th>
-                    <th>Cupos</th>
-                    <th>Instructor</th>
-                </tr>
-                </thead>
+				<tr>
+				    <th>ID</th>
+				    <th>Nombre</th>
+				    <th>Descripción</th>
+				    <th>Fecha inicio</th>
+				    <th>Fecha fin</th>
+				    <th>Cupos</th>
+				    <th>Instructor</th>
+				    <th>Acciones</th>
+				</tr>
+				</thead>
+
 
                 <tbody>
                 <tr th:each="curso : ${cursos}">
@@ -55,17 +67,32 @@
           					th:text="${curso.instructorNombre}"></span>
           					
           				<a th:if="${curso.instructorNombre == ''}"
-						   class="btn btn-sm btn-outline-primary"
+						   class="btn btn-sm btn-success"
 						   th:href="@{'/admin/cursos/registrarse-como-instructor/' + ${curso.curso.id}}">
 						    Ser Instructor
 						</a>
           				
 					</td>
+					<td>
+					    <!-- Editar -->
+					    <a class="btn btn-sm btn-warning me-1"
+					       th:href="@{'/admin/cursos/editar/' + ${curso.curso.id}}">
+					        Editar
+					    </a>
+					
+					    <!-- Eliminar -->
+					    <a class="btn btn-sm btn-danger"
+					       th:href="@{'/admin/cursos/eliminar/' + ${curso.curso.id}}"
+					       onclick="return confirm('¿Seguro que deseas eliminar este curso?');">
+					        Eliminar
+					    </a>
+					</td>
+					
                 </tr>
                 </tbody>
             </table>
 
-            <a th:href="@{/admin/cursos/crear}" class="btn btn-primary">Crear Curso</a>
+            
 
         </div>
     </div>

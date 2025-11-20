@@ -58,7 +58,7 @@ académica.
 
 ------------------------------------------------------------------------
 
-## Estructura del Proyecto
+## Estructura simplificada del Proyecto
 
     src/
      └─ main/
@@ -68,10 +68,12 @@ académica.
          │   ├─ entities/
          │   ├─ mappers/
          │   ├─ repositories/
+         │   ├─ restControllers/
          │   ├─ security/
          │   └─ services/
          └─ resources/
              ├─ templates/
+             │   ├─ index.html
              │   ├─ login.html
              │   ├─ registro.html
              │   ├─ admin/
@@ -106,9 +108,16 @@ Editar `application.properties`:
 
 ## Pendientes
 
--   CRUD de cursos.
 -   REST GET /api/cursos: Devuelve el listado de cursos disponibles
 - 	REST POST /api/inscripciones: Registra a un empleado en un curso
+
+### Mejoras
+
+-	Vista empleados: mostrar opción 'inscribir' solo para cursos vigentes
+-	Separar roles ADMIN e INSTRUCTOR
+-	Manejo de errores en controllers
+-	Páginación de cursos en vistas admin y empleado
+-	Navbar en todas las vistas
 
 ------------------------------------------------------------------------
 
