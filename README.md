@@ -21,7 +21,7 @@ académica.
 -   Spring Data JPA
 -   Spring Security
 -   Hibernate Validator
--   MySQL / PostgreSQL
+-   MySQL
 -   Lombok
 
 ### Frontend
