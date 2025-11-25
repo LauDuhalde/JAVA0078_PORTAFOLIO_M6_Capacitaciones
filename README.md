@@ -110,11 +110,12 @@ Editar `application.properties`:
 
 ### Mejoras
 
--	Vista empleados: mostrar opción 'inscribir' solo para cursos vigentes
--	Separar roles ADMIN e INSTRUCTOR
--	Manejo de errores en controllers
--	Páginación de cursos en vistas admin y empleado
--	Navbar en todas las vistas
+Existen varios aspectos que podrían optimizarse para mejorar la experiencia de usuario y la calidad del sistema:
+- En la vista de empleados, se podría mejorar la lógica para mostrar la opción “Inscribirse” sólo en aquellos cursos que se encuentren vigentes según su fecha de inicio y término.
+- Separar de forma más clara los roles de ADMIN e INSTRUCTOR, definiendo permisos y vistas específicas para cada uno.
+- Implementar un manejo de excepciones centralizado en los controladores para entregar respuestas más claras y controladas ante errores.
+- Agregar paginación en las vistas de cursos, tanto en el panel de administrador como en el de empleados, para mejorar la usabilidad cuando existen muchos registros.
+- Incluir un navbar común en todas las vistas, asegurando una experiencia de navegación consistente en toda la aplicación.
 
 ------------------------------------------------------------------------
 
