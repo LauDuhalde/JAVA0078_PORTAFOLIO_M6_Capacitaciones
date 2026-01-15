@@ -1,13 +1,10 @@
-# Proyecto: Plataforma de Gestión de Cursos (Provisorio)
+# Proyecto: Plataforma de Gestión de Cursos
 
 Este proyecto es una plataforma web que permite gestionar cursos
 internos dentro de una organización.\
 Incluye registro de usuarios, asignación de roles, inscripción de
 empleados a cursos y panel administrativo para la gestión de la oferta
 académica.
-
-> ⚠ **Este README es provisorio** y se actualizará a medida que se
-> completen los objetivos del proyecto.
 
 ------------------------------------------------------------------------
 
@@ -103,19 +100,6 @@ Editar `application.properties`:
 ### 4. Abrir en el navegador
 
     http://localhost:8081
-
-------------------------------------------------------------------------
-
-## Pendientes
-
-### Mejoras
-
-Existen varios aspectos que podrían optimizarse para mejorar la experiencia de usuario y la calidad del sistema:
-- En la vista de empleados, se podría mejorar la lógica para mostrar la opción “Inscribirse” sólo en aquellos cursos que se encuentren vigentes según su fecha de inicio y término.
-- Separar de forma más clara los roles de ADMIN e INSTRUCTOR, definiendo permisos y vistas específicas para cada uno.
-- Implementar un manejo de excepciones centralizado en los controladores para entregar respuestas más claras y controladas ante errores.
-- Agregar paginación en las vistas de cursos, tanto en el panel de administrador como en el de empleados, para mejorar la usabilidad cuando existen muchos registros.
-- Incluir un navbar común en todas las vistas, asegurando una experiencia de navegación consistente en toda la aplicación.
 
 ------------------------------------------------------------------------
 
